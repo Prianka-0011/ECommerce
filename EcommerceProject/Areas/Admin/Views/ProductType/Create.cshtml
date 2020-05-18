@@ -1,0 +1,27 @@
+﻿@model EcommerceProject.Models.ProductTypes
+@*//here i make mistake*@
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 class="text-info">Create product type</h1>
+<form asp-action="Create" method="post">
+    <div class="p-2 rounded border">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="row form-group">
+            <label asp-for="ProductType">ProductTypes</label>
+            <input asp-for="ProductType" class="form-control" />
+        </div>
+        <span asp-validation-for="ProductType" class="text-danger"></span>
+        <div class="form-group">
+            <button type="submit" class="btn btn-danger"><i class="fas fa-plus"></i></button>
+            <a class=" btn btn-info" asp-action="Index"><i class="fas fa-undo"></i></a>
+        </div>
+    </div>
+</form>
+
+@section Scripts{ 
+   @{
+       await Html.RenderPartialAsync(partialViewName: "_ValidationScriptsPartial.cshtml");
+   }
+}

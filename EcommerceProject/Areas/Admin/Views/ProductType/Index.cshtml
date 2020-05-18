@@ -1,0 +1,40 @@
+﻿@model IEnumerable<EcommerceProject.Models.ProductTypes>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h1 class="text-dark">Product Type List</h1>
+    </div>
+    <div class="col-md-6 text-right">
+        <a asp-action="Create" class="btn btn-danger">&nbsp; <i class="fas fa-plus"></i></a>
+    </div>
+
+</div>
+@if (Model != null)
+{
+    <div>
+        <table class="table table-bordered">
+            <tr>
+                <th class="bg-success">Product Type</th>
+                <th class="bg-success"></th>
+                <th class="bg-success"></th>
+            </tr>
+
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductType</td>
+                    <td>
+                        <partial name="_ButtonPartial" model="item.Id" />
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    
+            }
+
