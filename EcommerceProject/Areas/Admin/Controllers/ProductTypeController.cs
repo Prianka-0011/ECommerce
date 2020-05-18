@@ -50,6 +50,10 @@ namespace EcommerceProject.Areas.Admin.Controllers
                 return NotFound();
             }
             var productType = _context.ProductTypes.Find(id);
+            if (productType==null)
+            {
+                return NotFound();
+            }
             return View(productType);
         }
         [HttpPost]
@@ -57,7 +61,7 @@ namespace EcommerceProject.Areas.Admin.Controllers
         //HttpPost post Action
         public async Task<IActionResult>Edit(ProductTypes productTypes)
         {
-            if (productTypes!=null)
+            if (ModelState.IsValid)
             {
                 _context.ProductTypes.Update(productTypes);
                 await _context.SaveChangesAsync();
@@ -66,6 +70,48 @@ namespace EcommerceProject.Areas.Admin.Controllers
 
             return View(productTypes);
         }
+        ///HttpGet for Details
+        [HttpGet]
+        public async Task<IActionResult>Details(int?id)
+        {
+            if (id==null)
+            {
+                return NotFound();
+            }
+            var productType = await _context.ProductTypes.FindAsync(id);
+            if(productType==null)
+            {
+                return NotFound();
+            }
+            return View(productType);
+        }
+        //HttpGet for Delete mathod
+        [HttpGet]
+        public IActionResult Delete(int? id)
+        {
+            if (id==null)
+            {
+                return NotFound();
+            }
+            var productType = _context.ProductTypes.Find(id);
+            if (productType==null)
+            {
+                return NotFound();
+            }
+            return View(productType);
+        }
+        //HttpPost Method for delete
+        [HttpPost ,ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult>DeleteConfirmed(int id)
+        {
+            var productType = await _context.ProductTypes.FindAsync(id);
+            _context.ProductTypes.Remove(productType);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
+        }
+        
 
     }
 }
