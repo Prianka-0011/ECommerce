@@ -9,110 +9,105 @@ using Microsoft.AspNetCore.Mvc;
 namespace EcommerceProject.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ProductTypeController : Controller
+    public class SpecialTagController : Controller
     {
+       
         private ApplicationDbContext _context;
-        public ProductTypeController( ApplicationDbContext context)
+        public SpecialTagController(ApplicationDbContext context)
         {
             _context = context;
         }
         public IActionResult Index()
         {
-            //var productList = _context.ProductTypes.ToList();
-            return View(_context.ProductTypes.ToList());
+            var specialTag = _context.SpecialTag.ToList();
+            return View(specialTag);
         }
-        //for create product type
+        //HttpGet for special tag
         [HttpGet]
         public IActionResult Create()
         {
-
             return View();
         }
+        //HttpPos for special tag
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult>Create(ProductTypes productTypes)
-        {
-            if(ModelState.IsValid)
-            {
-                _context.ProductTypes.Add(productTypes);
-                await _context.SaveChangesAsync();
-                TempData["create"] = "Product has been successfully created";
-                return RedirectToAction(nameof(Index));
-            }
-            return View(productTypes);
-        }
-        //HttpGet* Edit Action
-        [HttpGet]
-        public IActionResult Edit(int?id)
-        {
-            if(id==null)
-            {
-
-                return NotFound();
-            }
-            var productType = _context.ProductTypes.Find(id);
-            if (productType==null)
-            {
-                return NotFound();
-            }
-            return View(productType);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        //HttpPost post Action
-        public async Task<IActionResult>Edit(ProductTypes productTypes)
+        public async Task<IActionResult>Create(SpecialTag specialTag)
         {
             if (ModelState.IsValid)
             {
-                _context.ProductTypes.Update(productTypes);
+                _context.SpecialTag.Add(specialTag);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            return View(productTypes);
+            return View(specialTag);
         }
-        ///HttpGet for Details
+        //HttpGet for Edit
         [HttpGet]
-        public async Task<IActionResult>Details(int?id)
+        public IActionResult Edit(int?id)
         {
             if (id==null)
             {
                 return NotFound();
             }
-            var productType = await _context.ProductTypes.FindAsync(id);
-            if(productType==null)
+            var specialTag = _context.SpecialTag.Find(id);
+            if (specialTag==null)
             {
                 return NotFound();
             }
-            return View(productType);
+            return View(specialTag);
         }
-        //HttpGet for Delete mathod
-        [HttpGet]
-        public IActionResult Delete(int? id)
-        {
-            if (id==null)
-            {
-                return NotFound();
-            }
-            var productType = _context.ProductTypes.Find(id);
-            if (productType==null)
-            {
-                return NotFound();
-            }
-            return View(productType);
-        }
-        //HttpPost Method for delete
-        [HttpPost ,ActionName("Delete")]
+        //HttpGet For Edit
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult>DeleteConfirmed(int id)
+        public async Task<IActionResult>Edit(SpecialTag specialTag)
         {
-            var productType = await _context.ProductTypes.FindAsync(id);
-            _context.ProductTypes.Remove(productType);
+            if (ModelState.IsValid)
+            {
+                _context.SpecialTag.Update(specialTag);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(specialTag);
+        }
+        //HttpGet for Details
+        public IActionResult Details(int?id)
+        {
+            if (id==null)
+            {
+                return NotFound();
+            }
+            var specialTag = _context.SpecialTag.Find(id);
+            if (specialTag==null)
+            {
+                return NotFound();
+            }
+            return View(specialTag);
+        }
+        [HttpGet]
+        //HttpGet for Delete
+        public IActionResult Delete(int?id)
+        {
+            if (id==null)
+            {
+                return NotFound();
+
+            }
+            var specialTag = _context.SpecialTag.Find(id);
+            if (specialTag==null)
+            {
+                return NotFound();
+            }
+            return View(specialTag);
+        }
+        //HttpPost for Delete
+        [HttpPost,ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult>ConfirmDelete(int id)
+        {
+            var specialTag = await _context.SpecialTag.FindAsync(id);
+            _context.SpecialTag.Remove(specialTag);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-
         }
-        
-
     }
 }

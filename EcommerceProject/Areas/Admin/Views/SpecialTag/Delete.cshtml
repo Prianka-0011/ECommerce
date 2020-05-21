@@ -1,0 +1,22 @@
+﻿@model EcommerceProject.Models.SpecialTag
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete Tag</h1>
+
+
+
+<div class="border p-4 rounded">
+    <div class="form-group">
+        <label asp-for="TagName"></label>
+        <input asp-for="TagName" class="form-control" readonly="readonly" />
+    </div>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+            <a asp-action="Index" class="btn btn-info"><i class="fas fa-undo"></i></a>
+        </div>
+    </form>
+</div>

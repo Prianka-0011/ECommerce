@@ -36,5 +36,17 @@
         </table>
     </div>
     
-            }
+}
 
+@section Scripts
+{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var create = '@TempData["create"]';
+            if (create != null) {
+                alertify.success(create);
+            }
+        });
+    </script>
+}

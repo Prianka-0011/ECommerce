@@ -1,0 +1,34 @@
+﻿@model IEnumerable<EcommerceProject.Models.SpecialTag>
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="row">
+    <div class="col-md-6">
+        <h1 class="text-danger">Special Tag List</h1>
+    </div>
+    <div class="col-md-6">
+        <a asp-action="Create" class="btn btn-success">Create New Tag</a>
+    </div>
+</div>
+
+@if (Model!=null)
+{
+    <div>
+        <table class="table table-bordered">
+            <tr>
+                <th>TagName</th>
+                <th></th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.TagName</td>
+                    <td><partial name="_specialTagButton"  model="item.Id" /></td>
+                </tr>
+            }
+        </table>
+    </div>
+}
