@@ -14,19 +14,17 @@ namespace EcommerceProject.Models
         [Required]
         public decimal Price { get; set; }
         public string Image { get; set; }
-        [Display(Name ="Product Color")]
+        [Display(Name = "Product Color")]
         public string ProductColor { get; set; }
         [Required]
-        [Display(Name ="Avaiable")]
+        [Display(Name = "Avaiable")]
         public bool IsAviable { get; set; }
-        public int ProductTypeId { get; set; }
         [Required]
-        [Display(Name = "Product Type")]
-        public ProductTypes ProductTypes { get; set; }
-        [Required]
-        [Display(Name = "Special Tag")]
+        // Navication prop Id should be same as it object like ProductTypes and ProductTypesId only different beween Id word
         public int SpecialTagId { get; set; }
-        public SpecialTag SpecialTags { get; set; }
-
+        public virtual SpecialTag SpecialTag { get; set; }
+        [Required]
+        public int ProductTypesId { get; set; }
+        public virtual ProductTypes ProductTypes { get; set; }
     }
 }

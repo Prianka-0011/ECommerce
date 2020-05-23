@@ -4,16 +4,14 @@ using EcommerceProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace EcommerceProject.Data.Migrations
+namespace EcommerceProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200515161658_script1")]
-    partial class script1
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,18 +19,61 @@ namespace EcommerceProject.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("EcommerceProject.Models.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Image");
+
+                    b.Property<bool>("IsAviable");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<decimal>("Price");
+
+                    b.Property<string>("ProductColor");
+
+                    b.Property<int>("ProductTypesId");
+
+                    b.Property<int>("SpecialTagId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductTypesId");
+
+                    b.HasIndex("SpecialTagId");
+
+                    b.ToTable("Products");
+                });
+
             modelBuilder.Entity("EcommerceProject.Models.ProductTypes", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ProductType")
+                    b.Property<string>("Type")
                         .IsRequired();
 
                     b.HasKey("Id");
 
                     b.ToTable("ProductTypes");
+                });
+
+            modelBuilder.Entity("EcommerceProject.Models.SpecialTag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("TagName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SpecialTag");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -198,6 +239,19 @@ namespace EcommerceProject.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("EcommerceProject.Models.Product", b =>
+                {
+                    b.HasOne("EcommerceProject.Models.ProductTypes", "ProductTypes")
+                        .WithMany("Products")
+                        .HasForeignKey("ProductTypesId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("EcommerceProject.Models.SpecialTag", "SpecialTag")
+                        .WithMany("Products")
+                        .HasForeignKey("SpecialTagId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

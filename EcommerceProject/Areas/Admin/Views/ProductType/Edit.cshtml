@@ -9,10 +9,10 @@
         <input type="hidden" asp-for="Id" />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <label class="text-danger" asp-for="ProductType"></label>
-            <input asp-for="ProductType" class="form-control" />
+            <label class="text-danger" asp-for="Type"></label>
+            <input asp-for="Type" class="form-control" />
         </div>
-        <span class="text-danger" asp-validation-for="ProductType"></span>
+        <span class="text-danger" asp-validation-for="Type"></span>
         <div class="form-group">
             <button class="btn btn-danger" type="submit"><i class="far fa-save"></i></i></button>
             <a class=" btn btn-info" asp-action="Index"><i class="fas fa-undo"></i></a>
