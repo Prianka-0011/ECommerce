@@ -60,8 +60,12 @@ namespace EcommerceProject.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //HttpPost post Action
-        public async Task<IActionResult>Edit(ProductTypes productTypes)
+        public async Task<IActionResult>Edit(int id,ProductTypes productTypes)
         {
+            if (id!=productTypes.Id)
+            {
+                return NotFound();
+            }
             if (ModelState.IsValid)
             {
                 _context.ProductTypes.Update(productTypes);

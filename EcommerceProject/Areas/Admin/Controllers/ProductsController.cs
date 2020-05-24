@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EcommerceProject.Data;
 using EcommerceProject.Models;
+using EcommerceProject.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -70,7 +71,67 @@ namespace EcommerceProject.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Edit(int?id)
         {
+            ViewData["ProductTypeId"] = new SelectList(_context.ProductTypes.ToList(), "Id", "Type"); //("For value","For Display")
+            ViewData["SpecialTagId"] = new SelectList(_context.SpecialTag.ToList(), "Id", "TagName"); //("For value","For Display")
+            if (id==null)
+            {
+                return NotFound();
+            }
+            var product = _context.Products.Include(p => p.ProductTypes).Include(s => s.SpecialTag).FirstOrDefault(f => f.Id == id);
+            if (product==null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
+        //HttpPost for Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult>Edit(int id, Product productVm,IFormFile image)
+        {
+            if (id!= productVm.Id)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                if (image != null)
+                {
+                    var imgnName = Path.Combine(_hosting.WebRootPath + "/Images", Path.GetFileName(image.FileName));
+                    await image.CopyToAsync(new FileStream(imgnName, FileMode.Create));
+                    productVm.Image = "Images/" + image.FileName;
+                }
+                if (image == null)
+                {
+                    var products = _context.Products.Find(productVm.Id);
+
+                    products.Name = productVm.Name;
+                    products.Price = productVm.Price;
+                    products.ProductColor = productVm.ProductColor;
+                    products.IsAviable = productVm.IsAviable;
+                    products.ProductTypes = productVm.ProductTypes;
+                    products.SpecialTag = productVm.SpecialTag;
+                    _context.Products.Update(products);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+
+                }
+                _context.Products.Update(productVm);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(productVm);
+           
+        }
+        //HttpGet For Details
+        public IActionResult Details(int?id)
+        {
             if(id==null)
+            {
+                return NotFound();
+            }
+            var product = _context.Products.Find(id);
+            if (product==null)
             {
                 return NotFound();
             }

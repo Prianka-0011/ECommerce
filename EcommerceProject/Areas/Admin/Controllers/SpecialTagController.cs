@@ -59,8 +59,12 @@ namespace EcommerceProject.Areas.Admin.Controllers
         //HttpGet For Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult>Edit(SpecialTag specialTag)
+        public async Task<IActionResult>Edit(int id,SpecialTag specialTag)
         {
+            if (id!=specialTag.Id)
+            {
+                return NotFound();
+            }
             if (ModelState.IsValid)
             {
                 _context.SpecialTag.Update(specialTag);

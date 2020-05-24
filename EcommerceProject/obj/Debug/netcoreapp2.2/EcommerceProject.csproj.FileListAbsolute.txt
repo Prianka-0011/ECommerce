@@ -41,10 +41,10 @@ C:\Users\niku\source\repos\EcommerceProject\EcommerceProject\obj\Debug\netcoreap
 C:\Users\niku\source\repos\EcommerceProject\EcommerceProject\obj\Debug\netcoreapp2.2\Razor\Areas\Admin\Views\ProductType\Details.g.cshtml.cs
 C:\Users\niku\source\repos\EcommerceProject\EcommerceProject\obj\Debug\netcoreapp2.2\Razor\Areas\Admin\Views\ProductType\Delete.g.cshtml.cs
 C:\Users\niku\source\repos\EcommerceProject\EcommerceProject\obj\Debug\netcoreapp2.2\Razor\Areas\Admin\Views\SpecialTag\Index.g.cshtml.cs
-C:\Users\niku\source\repos\EcommerceProject\EcommerceProject\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_specialTagButton.g.cshtml.cs
 C:\Users\niku\source\repos\EcommerceProject\EcommerceProject\obj\Debug\netcoreapp2.2\Razor\Areas\Admin\Views\SpecialTag\Edit.g.cshtml.cs
 C:\Users\niku\source\repos\EcommerceProject\EcommerceProject\obj\Debug\netcoreapp2.2\Razor\Areas\Admin\Views\SpecialTag\Create.g.cshtml.cs
 C:\Users\niku\source\repos\EcommerceProject\EcommerceProject\obj\Debug\netcoreapp2.2\Razor\Areas\Admin\Views\SpecialTag\Details.g.cshtml.cs
 C:\Users\niku\source\repos\EcommerceProject\EcommerceProject\obj\Debug\netcoreapp2.2\Razor\Areas\Admin\Views\SpecialTag\Delete.g.cshtml.cs
 C:\Users\niku\source\repos\EcommerceProject\EcommerceProject\obj\Debug\netcoreapp2.2\Razor\Areas\Admin\Views\Products\Index.g.cshtml.cs
 C:\Users\niku\source\repos\EcommerceProject\EcommerceProject\obj\Debug\netcoreapp2.2\Razor\Areas\Admin\Views\Products\Create.g.cshtml.cs
+C:\Users\niku\source\repos\EcommerceProject\EcommerceProject\obj\Debug\netcoreapp2.2\Razor\Areas\Admin\Views\Products\Edit.g.cshtml.cs

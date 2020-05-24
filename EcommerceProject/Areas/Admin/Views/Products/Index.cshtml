@@ -36,6 +36,16 @@
             <td>@item.ProductTypes.Type</td>
             <td>@item.SpecialTag.TagName</td>
             <td>
+                @if (item.IsAviable)
+                {
+                    <p>Aviable</p>
+                }
+                else
+                {
+                    <p>Not Aviable</p>
+                }
+            </td>
+            <td>
                 <partial name="_ButtonPartial" model="@item.Id" />
             </td>
            

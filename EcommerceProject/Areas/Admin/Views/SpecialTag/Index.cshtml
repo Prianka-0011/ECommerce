@@ -24,10 +24,10 @@
             </tr>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>@item.TagName</td>
-                    <td><partial name="_specialTagButton"  model="item.Id" /></td>
-                </tr>
+        <tr>
+            <td>@item.TagName</td>
+            <partial name="_ButtonPartial" model="@item.Id" />
+        </tr>
             }
         </table>
     </div>
