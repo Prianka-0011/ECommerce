@@ -1,0 +1,56 @@
+﻿@model EcommerceProject.Models.Product
+@{
+    ViewData["Title"] = "Delete";
+}
+
+    <div class="p-4 border rounded">
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Price)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.IsAviable)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.IsAviable)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ProductColor)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ProductColor)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ProductTypes)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ProductTypes.Type)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.SpecialTag)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.SpecialTag.TagName)
+            </dd>
+        </dl>
+        <div class="col-md-4">
+            <img src="~/@Model.Image" style="border-radius: 5px;border: 1px solid #efefef" width="250" height="250" />
+        </div>
+    </div>
+
+    <div >
+        <form asp-action="Delete" method="post">
+            <input type="hidden"asp-for="Id"  />
+            <button class="btn btn-warning"><i class="fas fa-trash-alt"></i></button>
+            <a class="btn btn-info" asp-action="Index"><i class="fas fa-undo"></i></a>
+        </form>
+    </div>

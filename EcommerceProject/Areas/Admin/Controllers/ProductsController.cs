@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EcommerceProject.Data;
 using EcommerceProject.Models;
-using EcommerceProject.ViewModels;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -124,18 +124,46 @@ namespace EcommerceProject.Areas.Admin.Controllers
            
         }
         //HttpGet For Details
+        [HttpGet]
         public IActionResult Details(int?id)
         {
-            if(id==null)
+           
+            if (id==null)
             {
                 return NotFound();
             }
-            var product = _context.Products.Find(id);
+
+            var product = _context.Products.Include(p=>p.ProductTypes).Include(s=>s.SpecialTag).FirstOrDefault(c=>c.Id==id);
             if (product==null)
             {
                 return NotFound();
             }
-            return View();
+            return View(product);
+        }
+        //HttpGet For Delete
+        [HttpGet]
+        public IActionResult Delete(int?id)
+        {
+            if (id==null)
+            {
+                return NotFound();
+            }
+            var product = _context.Products.Include(p => p.ProductTypes).Include(s => s.SpecialTag).FirstOrDefault(f=>f.Id==id);
+            if (product==null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
+        //HttpPost For Delete
+        [HttpPost,ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult>ConfirmDelete(int id)
+        {
+            var product =await  _context.Products.FindAsync(id);
+                 _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
     }
