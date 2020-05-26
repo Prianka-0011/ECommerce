@@ -35,6 +35,12 @@ namespace EcommerceProject.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                var searchTag =  _context.SpecialTag.FirstOrDefault(c => c.TagName ==specialTag.TagName);
+                if (searchTag!=null)
+                {
+                    TempData["msg"] = "This Tag Already Exit";
+                    return View(specialTag);
+                }
                 _context.SpecialTag.Add(specialTag);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -67,6 +73,12 @@ namespace EcommerceProject.Areas.Admin.Controllers
             }
             if (ModelState.IsValid)
             {
+                var searchTag = _context.SpecialTag.FirstOrDefault(c => c.TagName == specialTag.TagName && c.Id!=specialTag.Id);
+                if (searchTag != null)
+                {
+                    TempData["msg"] = "This Tag Already Exit";
+                    return View(specialTag);
+                }
                 _context.SpecialTag.Update(specialTag);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

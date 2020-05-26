@@ -19,7 +19,16 @@
     </div>
 </form>
 @section Scripts{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var msg = '@TempData["msg"]';
+            if (msg != null) {
+               alertify.warning(msg);
+            }
+        });
+    </script>
     @{
-       await Html.RenderPartialAsync(partialViewName: "_ValidationScriptsPartial.cshtml");
+        await Html.RenderPartialAsync(partialViewName: "_ValidationScriptsPartial.cshtml");
     }
 }

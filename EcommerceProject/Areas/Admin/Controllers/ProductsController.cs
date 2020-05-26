@@ -47,6 +47,14 @@ namespace EcommerceProject.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                var searchProduct = await _context.Products.FirstOrDefaultAsync(p => p.Name == product.Name);
+                if (searchProduct!=null)
+                {
+                    TempData["msg"] = "This Product All Ready Exit";
+                    ViewData["ProductTypeId"] = new SelectList(_context.ProductTypes.ToList(), "Id", "Type"); //("For value","For Display")
+                    ViewData["SpecialTagId"] = new SelectList(_context.SpecialTag.ToList(), "Id", "TagName"); //("For value","For Display")
+                    return View(product);
+                }
                 if(image!=null)
                 {
                     var imgName = Path.Combine(_hosting.WebRootPath + "/Images", Path.GetFileName(image.FileName));
@@ -95,6 +103,19 @@ namespace EcommerceProject.Areas.Admin.Controllers
             }
             if (ModelState.IsValid)
             {
+                var searchProduct = await _context.Products.FirstOrDefaultAsync(p => p.Name == productVm.Name && p.Id!=productVm.Id);
+                if (searchProduct != null)
+                {
+                    TempData["msg"] = "This Product All Ready Exit";
+                    ViewData["ProductTypeId"] = new SelectList(_context.ProductTypes.ToList(), "Id", "Type"); //("For value","For Display")
+                    ViewData["SpecialTagId"] = new SelectList(_context.SpecialTag.ToList(), "Id", "TagName"); //("For value","For Display")
+                    if (image==null)
+                    {
+                        var img = await _context.Products.FirstOrDefaultAsync(c => c.Id == productVm.Id);
+                        productVm.Image = img.Image;
+                    }
+                    return View(productVm);
+                }
                 if (image != null)
                 {
                     var imgnName = Path.Combine(_hosting.WebRootPath + "/Images", Path.GetFileName(image.FileName));

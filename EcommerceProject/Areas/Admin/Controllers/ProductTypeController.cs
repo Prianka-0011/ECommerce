@@ -34,6 +34,12 @@ namespace EcommerceProject.Areas.Admin.Controllers
         {
             if(ModelState.IsValid)
             {
+                var searchType = _context.ProductTypes.FirstOrDefault(p => p.Type == productTypes.Type && p.Id!=productTypes.Id);
+                if (searchType!=null)
+                {
+                    TempData["msg"]= "This Type Already Exist";
+                    return View(productTypes);
+                }
                 _context.ProductTypes.Add(productTypes);
                 await _context.SaveChangesAsync();
                 TempData["create"] = "Product has been successfully created";

@@ -21,7 +21,7 @@
             </div>
             <div class="row form-group">
                 <div class="col-md-2"> <label asp-for="ProductColor"></label></div>
-                <div class="col-md-5"> <input asp-for="ProductColor" class="form-control"  /></div>
+                <div class="col-md-5"> <input asp-for="ProductColor" class="form-control" /></div>
                 <span asp-validation-for="ProductColor" class="text-danger"></span>
             </div>
 
@@ -53,13 +53,22 @@
             </div>
         </div>
         <div class="col-md-4">
-            <img src="~/@Model.Image" style="border-radius: 5px;border: 1px solid #efefef" width="250" height="250"  />
+            <img src="~/@Model.Image" style="border-radius: 5px;border: 1px solid #efefef" width="250" height="250" />
         </div>
-        
-        
+
+
     </div>
 </form>
 @section Scripts{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var msg = '@TempData["msg"]';
+            if (msg != null) {
+               alertify.warning(msg);
+            }
+        });
+    </script>
     @{
         await Html.RenderPartialAsync(partialViewName: "_ValidationScriptsPartial.cshtml");
     }
