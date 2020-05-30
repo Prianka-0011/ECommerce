@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,9 +23,11 @@ namespace EcommerceProject.Models
         [Required]
         // Navication prop Id should be same as it object like ProductTypes and ProductTypesId only different beween Id word
         public int SpecialTagId { get; set; }
+        [ForeignKey("SpecialTagId")]
         public virtual SpecialTag SpecialTag { get; set; }
         [Required]
         public int ProductTypesId { get; set; }
+        [ForeignKey("ProductTypesId")]
         public virtual ProductTypes ProductTypes { get; set; }
     }
 }

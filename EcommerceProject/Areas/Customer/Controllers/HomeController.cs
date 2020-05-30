@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using EcommerceProject.Models;
 using EcommerceProject.Data;
 using Microsoft.EntityFrameworkCore;
+using EcommerceProject.Utility;
 
 namespace EcommerceProject.Controllers
 {
@@ -31,12 +32,37 @@ namespace EcommerceProject.Controllers
                 return NotFound();
 
             }
-            var product = _context.Products.Include(p => p.ProductTypes).Include(s => s.SpecialTag).FirstOrDefault(c => c.Id == id);
+            var product = _context.Products.Include(p => p.ProductTypes).FirstOrDefault(c => c.Id == id);
             if (product==null)
             {
                 return NotFound();
             }
             return View(product);
+        }
+        //httpPost for add to card
+        [HttpPost]
+        [ActionName("Details")]
+        public IActionResult AddToCard(int? id)
+        {
+            List<Product> products =new List<Product>();
+            if (id == null)
+            {
+                return NotFound();
+
+            }
+            var product = _context.Products.Include(p => p.ProductTypes).FirstOrDefault(c => c.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            products = HttpContext.Session.Get<List<Product>>("products");
+            if (products==null)
+            {
+                products = new List<Product>();
+            }
+            products.Add(product);
+            HttpContext.Session.Set("products", products);///Here I make a sily mistake but that give me too much pain I do not send session object
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Privacy()

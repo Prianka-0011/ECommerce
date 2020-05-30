@@ -9,6 +9,6 @@ namespace EcommerceProject.Models
     {
         public int Id { get; set; }
         public string TagName { get; set; }
-        public List<Product> Products { get; set; }
+        
     }
 }

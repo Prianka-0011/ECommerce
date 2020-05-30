@@ -12,6 +12,6 @@ namespace EcommerceProject.Models
 
         [Required,Display(Name ="Product Type")]
         public string Type { get; set; }
-        public List<Product> Products { get; set; }
+        
     }
 }
