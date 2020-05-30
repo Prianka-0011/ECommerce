@@ -5,15 +5,38 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using EcommerceProject.Models;
+using EcommerceProject.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace EcommerceProject.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
-        [Area("Customer")]
+       
+        ApplicationDbContext _context;
+        public HomeController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         public IActionResult Index()
         {
-            return View();
+            var product = _context.Products.Include(p => p.ProductTypes).Include(s => s.SpecialTag).ToList();
+            return View(product);
+        }
+        public IActionResult Details(int?id)
+        {
+            if (id==null)
+            {
+                return NotFound();
+
+            }
+            var product = _context.Products.Include(p => p.ProductTypes).Include(s => s.SpecialTag).FirstOrDefault(c => c.Id == id);
+            if (product==null)
+            {
+                return NotFound();
+            }
+            return View(product);
         }
 
         public IActionResult Privacy()

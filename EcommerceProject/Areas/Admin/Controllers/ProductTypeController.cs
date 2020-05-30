@@ -21,6 +21,8 @@ namespace EcommerceProject.Areas.Admin.Controllers
             //var productList = _context.ProductTypes.ToList();
             return View(_context.ProductTypes.ToList());
         }
+        
+        
         //for create product type
         [HttpGet]
         public IActionResult Create()

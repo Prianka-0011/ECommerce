@@ -15,7 +15,7 @@
 @if (Model != null)
 {
     <div>
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="myTable">
             <tr>
                 <th class="bg-success">Product Type</th>
                 <th class="bg-success"></th>
@@ -41,11 +41,19 @@
 @section Scripts
 {
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-    <script type="text/javascript">
+   
         $(function(){
             var create = '@TempData["create"]';
+            var update = '@TempData["update"]';
+            var delete = '@TempData["delete"]';
             if (create != null) {
                 alertify.success(create);
+            }
+            if (update != null) {
+                alertify.success(update);
+            }
+            if (delete != null) {
+                alertify.success(delete);
             }
         });
     </script>

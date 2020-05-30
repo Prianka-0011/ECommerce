@@ -26,11 +26,29 @@ namespace EcommerceProject.Areas.Admin.Controllers
             _hosting = hosting;
 
         }
-        public IActionResult Index()
+        public async Task< IActionResult> Index(int? searchTypeId,int page)
         {
-            var product = _context.Products.Include(p=>p.ProductTypes).Include(s=>s.SpecialTag).ToList();
-            return View(product);
+            IQueryable<Product> product= _context.Products.Include(p => p.ProductTypes).Include(s => s.SpecialTag);
+            ViewBag.count = product.Count();
+            ViewData["ProductTypeId"] = new SelectList(_context.ProductTypes.ToList(), "Id", "Type");
+            ViewBag.searchTypeId = searchTypeId;
+            if (searchTypeId != null)
+            {
+                product = _context.Products.Include(p => p.ProductTypes).Include(s => s.SpecialTag).Where(c => c.ProductTypes.Id == searchTypeId);
+                ViewData["ProductTypeId"] = new SelectList(_context.ProductTypes.ToList(), "Id", "Type");
+               
+            }
+            ViewBag.count = product.Count();
+            if (page<=0)
+            {
+                page = 1;
+            }
+                
+            
+            int pageSize = 3;
+            return View(await PaginatedList<Product>.CreateAsync(product,page,pageSize));
         }
+        
         //HttpGet for Product
         [HttpGet]
         public IActionResult Create()
@@ -71,6 +89,7 @@ namespace EcommerceProject.Areas.Admin.Controllers
 
                 _context.Products.Add(product);
                 await _context.SaveChangesAsync();
+                TempData["create"] = "This Product successfuly create";
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
@@ -86,6 +105,7 @@ namespace EcommerceProject.Areas.Admin.Controllers
                 return NotFound();
             }
             var product = _context.Products.Include(p => p.ProductTypes).Include(s => s.SpecialTag).FirstOrDefault(f => f.Id == id);
+          
             if (product==null)
             {
                 return NotFound();
@@ -134,11 +154,13 @@ namespace EcommerceProject.Areas.Admin.Controllers
                     products.SpecialTag = productVm.SpecialTag;
                     _context.Products.Update(products);
                     await _context.SaveChangesAsync();
+                    TempData["update"] = "This Product successfuly update";
                     return RedirectToAction(nameof(Index));
 
                 }
                 _context.Products.Update(productVm);
                 await _context.SaveChangesAsync();
+                TempData["update"] = "This Product successfuly update";
                 return RedirectToAction(nameof(Index));
             }
             return View(productVm);
@@ -159,6 +181,7 @@ namespace EcommerceProject.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            
             return View(product);
         }
         //HttpGet For Delete
@@ -184,6 +207,7 @@ namespace EcommerceProject.Areas.Admin.Controllers
             var product =await  _context.Products.FindAsync(id);
                  _context.Products.Remove(product);
             await _context.SaveChangesAsync();
+            TempData["delete"] = "This Product successfuly delete";
             return RedirectToAction(nameof(Index));
         }
 

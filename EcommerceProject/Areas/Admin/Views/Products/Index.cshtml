@@ -1,55 +1,137 @@
-﻿@model IEnumerable<EcommerceProject.Models.Product>
+﻿@model PaginatedList<EcommerceProject.Models.Product>
 @{
     ViewData["Title"] = "Index";
+    int i = 1;
+    int pagesize = 3;
+    int cp = Model.PageIndex;
+    int tp = Model.TotalPages;
+    i = (cp - 1) * pagesize + 1;
+    var prevd = Model.HasPreviousPage ? "" : "disabled";
+    var nextd = Model.HasNextPage ? "" : "disabled";
+    int start = cp -5;
+    //int start =+ cp;
+
+    int stop = cp + 5;
+
 }
 
 
-
+<h1>All Product List</h1>
 <div class="row">
-    <div class="col-md-6">
-        <h1>All Product List</h1>
-    </div>
-    <div class="col-md-6">
+    <div class="col-md-8">
+
         <a asp-action="Create" class="btn btn-info">&nbsp; <i class="fas fa-plus"></i></a>
+        <span class="bg-info text-dark">@ViewBag.count</span>
+    </div>
+    <div class="col-md-4 pull-right">
+        <form asp-action="Index" method="post">
+
+            <div class="row mb-3 mt-3">
+                <div class="col-md-4">
+                    <select asp-items="ViewBag.ProductTypeId" name="searchTypeId" class="form-control">
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-success">Search </button>
+                </div>
+            </div>
+
+        </form>
     </div>
 </div>
-@if (Model!=null)
+
+
+<br />
+
+@if (Model != null)
 {
-<table class="table table-bordered table-striped">
-    <tr>
-        <th>Name</th>
-        <th>Price</th>
-        <th>ProductColor</th>
-        <th>ProductType</th>
-        <th>SpecialTag</th>
-        <th>IsAviable</th>
-        <th></th>
-        <th></th>
-    </tr>
-    @foreach (var item in Model)
+    <table class="table bordered table-striped mtt-3" id="myTable">
+        <thead>
+            <tr class="table-info">
+                <th>Serial no</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>ProductColor</th>
+                <th>ProductTypes</th>
+                <th>SpecialTag</th>
+                <th>IsAviable</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@i</td>
+                    <td>@item.Name</td>
+                    <td>@item.Price</td>
+                    <td>@item.ProductColor</td>
+                    <td>@item.ProductTypes.Type</td>
+                    <td>@item.SpecialTag.TagName</td>
+                    <td>
+                        @if (item.IsAviable)
+                        {
+                            <p>Aviable</p>
+                        }
+                        else
+                        {
+                            <p>Not Aviable</p>
+                        }
+                    </td>
+                    <td>
+                        <partial name="_ButtonPartial" model="@item.Id" />
+                    </td>
+
+                </tr>
+                i++;
+                //here i never put this variable
+            }
+        </tbody>
+
+    </table>
+    <a asp-action="Index" class="btn btn-info" asp-controller="Products" asp-route-searchTypeId="@ViewBag.searchTypeId " asp-route-page=1>FirstPage</a>
+    <a asp-action="Index" class="btn btn-info @prevd" asp-controller="Products" asp-route-searchTypeId="@ViewBag.searchTypeId " asp-route-page="@(cp-1)">Previous</a>
+    @*@for (int k = start; k <= stop; k++)
     {
-        <tr>
-            <td>@item.Name</td>
-            <td>@item.Price</td>
-            <td>@item.ProductColor</td>
-            <td>@item.ProductTypes.Type</td>
-            <td>@item.SpecialTag.TagName</td>
-            <td>
-                @if (item.IsAviable)
-                {
-                    <p>Aviable</p>
-                }
-                else
-                {
-                    <p>Not Aviable</p>
-                }
-            </td>
-            <td>
-                <partial name="_ButtonPartial" model="@item.Id" />
-            </td>
-           
-        </tr>
-    }
-</table>
+        if (k >= 1 && k <= tp)
+        {
+            if (k == cp)
+            {
+                <a class="btn btn-warning"asp-action="Index" asp-controller="Products"  asp-route-searchTypeId="@ViewBag.searchTypeId" asp-route-page="@(Model.PageIndex + 1)" > @k</a>
+            }
+            else
+            {
+               <a class="btn btn-primary"asp-action="Index" asp-controller="Products" asp-route-searchTypeId="@ViewBag.searchTypeId"asp-route-page=@k> @k</a>
+            }
+        }
+    }*@
+    <a asp-action="Index" class="btn btn-info @nextd" asp-controller="Products" asp-route-searchTypeId="@ViewBag.searchTypeId " asp-route-page ="@(Model.PageIndex + 1)">Next</a>
+    <a asp-action="Index" class="btn btn-info" asp-controller="Products"  asp-route-searchTypeId="@ViewBag.searchTypeId " asp-route-page="@tp">LastPage</a>
 }
 
+
+@section Scripts
+{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+
+
+        $(function () {
+
+            var create = '@TempData["create"]';
+            var update = '@TempData["update"]';
+            var delete1 = '@TempData["delete"]';
+            if (create != null) {
+                alertify.success(create);
+            }
+            if (update != null) {
+                alertify.success(update);
+            }
+            if (delete1 != null) {
+                alertify.success(delete1);
+            }
+        });
+    </script>
+
+}
