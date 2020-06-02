@@ -39,12 +39,10 @@ namespace EcommerceProject.Controllers
             }
             return View(product);
         }
-        //httpPost for add to card
-        [HttpPost]
-        [ActionName("Details")]
-        public IActionResult AddToCard(int? id)
+        //increase Quentity
+        public IActionResult IncreaseQuentity(int? id)
         {
-            List<Product> products =new List<Product>();
+            List<CartItem> oldCart = new List<CartItem>();
             if (id == null)
             {
                 return NotFound();
@@ -55,14 +53,88 @@ namespace EcommerceProject.Controllers
             {
                 return NotFound();
             }
-            products = HttpContext.Session.Get<List<Product>>("products");
-            if (products==null)
+            oldCart = HttpContext.Session.Get<List<CartItem>>("products");
+            if (oldCart == null)
             {
-                products = new List<Product>();
+                //oldCart = new List<CartItem>();
+                List<CartItem> newcart = new List<CartItem>();
+                var item = new CartItem();
+                item.Quentity = 1;
+                item.ProductId = product.Id;
+                newcart.Add(item);
+                HttpContext.Session.Set("products", newcart);
             }
-            products.Add(product);
-            HttpContext.Session.Set("products", products);///Here I make a sily mistake but that give me too much pain I do not send session object
-            return RedirectToAction(nameof(Index));
+            if (oldCart != null)
+            {
+                List<CartItem> newcart = new List<CartItem>();
+                foreach (var item in oldCart)
+                {
+                    if (item.ProductId == product.Id)
+                    {
+                        // itemFound = true;
+                        item.Quentity++;
+                    }
+                    newcart.Add(item);
+                }
+                HttpContext.Session.Set("products", newcart);
+                return RedirectToAction("Details", product);
+            }
+            return RedirectToAction("Details", product);
+        }
+        //httpPost for add to card
+
+        [HttpPost]
+        [ActionName("Details")]
+        public IActionResult AddToCard(int? id)
+        {
+            //bool itemFound=false;
+            List<CartItem> oldCart =new List<CartItem>();
+            if (id == null)
+            {
+                return NotFound();
+
+            }
+            var product = _context.Products.Include(p => p.ProductTypes).FirstOrDefault(c => c.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            oldCart = HttpContext.Session.Get<List<CartItem>>("products");
+            if (oldCart==null)
+            {
+                //oldCart = new List<CartItem>();
+                List<CartItem> newcart = new List<CartItem>();
+                var item = new CartItem();
+                item.Quentity = 1;
+                item.ProductId = product.Id;
+                newcart.Add(item);
+
+            }
+            if (oldCart != null)
+            {
+                List<CartItem> newcart = new List<CartItem>();
+                foreach (var item in oldCart)
+                {
+                    newcart.Add(item);
+                }
+               
+                HttpContext.Session.Set("products", newcart);
+                return RedirectToAction(nameof(Index));
+
+            }
+            else
+            {
+                List<CartItem> newcart = new List<CartItem>();
+                newcart.Add(new CartItem
+                {
+                    Quentity = 1,
+                    ProductId = product.Id
+                }); 
+                HttpContext.Session.Set("products", newcart);
+                return RedirectToAction(nameof(Index));
+            }
+            ///Here I make a sily mistake but that give me too much pain I do not send session object
+        
         }
 
         public IActionResult Privacy()

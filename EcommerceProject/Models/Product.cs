@@ -19,6 +19,7 @@ namespace EcommerceProject.Models
         public string ProductColor { get; set; }
         [Required]
         [Display(Name = "Avaiable")]
+        //public int Queantity { get; set; }
         public bool IsAviable { get; set; }
         [Required]
         // Navication prop Id should be same as it object like ProductTypes and ProductTypesId only different beween Id word

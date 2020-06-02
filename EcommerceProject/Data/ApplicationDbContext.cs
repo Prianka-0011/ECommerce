@@ -16,5 +16,6 @@ namespace EcommerceProject.Data
         public DbSet<EcommerceProject.Models.ProductTypes> ProductTypes { get; set; }
         public DbSet<EcommerceProject.Models.SpecialTag> SpecialTag { get; set; }
         public DbSet<EcommerceProject.Models.Product> Products { get; set; }
+        public DbSet<EcommerceProject.Models.CartItem> CartItems { get; set; }
     }
 }

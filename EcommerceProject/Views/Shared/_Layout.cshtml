@@ -3,13 +3,18 @@
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 @{ 
-    int count = 0;
-    List<Product> products = HttpContextAccessor.HttpContext.Session.Get<List<Product>>("products");
-    if (products==null)
+    //int count = 0;
+    decimal quantity = 0;
+    List<CartItem> cartItems = HttpContextAccessor.HttpContext.Session.Get<List<CartItem>>("products");
+    if (cartItems==null)
     {
-        products = new List<Product>();
+        cartItems = new List<CartItem>();
     }
-    count = products.Count();
+    foreach (var item in cartItems)
+    {
+        quantity = item.Quentity + quantity;
+    }
+    //count = products.Count();
 }
 <!DOCTYPE html>
 <html>
@@ -61,7 +66,7 @@
                             <a class="nav-link text-dark" asp-area="Admin" asp-controller="Products" asp-action="Index">Product List</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Products" asp-action="Index"><i class="fas fa-cart-plus"></i> (@count)</a>
+                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Products" asp-action="Index"><i class="fas fa-cart-plus"></i> (@quantity)</a>
                         </li>
                     </ul>
                 </div>
