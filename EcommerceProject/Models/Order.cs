@@ -8,6 +8,10 @@ namespace EcommerceProject.Models
 {
     public class Order
     {
+        public Order()
+        {
+          OrderDetails = new List<OrderDetails>();
+        }
         public int Id { get; set; }
         public string OrderNo { get; set; }
         [Required]

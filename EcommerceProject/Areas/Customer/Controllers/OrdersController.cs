@@ -6,6 +6,7 @@ using EcommerceProject.Data;
 using EcommerceProject.Migrations;
 using EcommerceProject.Models;
 using EcommerceProject.Utility;
+using EcommerceProject.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -27,7 +28,23 @@ namespace EcommerceProject.Areas.Customer.Controllers
         [HttpGet]
         public IActionResult CheckOut()
         {
-            ViewBag.Products= HttpContext.Session.Get<List<CartItem>>("products");
+            List<CartItem> cart = HttpContext.Session.Get<List<CartItem>>("products");
+            List<CartVm> cartVms = new List<CartVm>();
+            if (cart!=null)
+            {
+                foreach (var item in cart)
+                {
+                    CartVm vm = new CartVm();
+                    var product = _context.Products.FirstOrDefault(c => c.Id == item.ProductId);
+                    vm.Name = product.Name;
+                    vm.Price = product.Price;
+                    vm.Image = product.Image;
+                    vm.Quantity = item.Quentity;
+                    cartVms.Add(vm);
+                }
+                ViewBag.Product = cartVms;
+            }
+            
             return View();
         }
         //HttpPost For CheckOut
@@ -50,8 +67,8 @@ namespace EcommerceProject.Areas.Customer.Controllers
             order.OrderNo = GetOrderNo();
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
-            HttpContext.Session.Set("products", null);
-            return View();
+            HttpContext.Session.Set("products",new List<CartItem>());
+            return RedirectToAction("Index","Home");
         }
         public string GetOrderNo()
         {

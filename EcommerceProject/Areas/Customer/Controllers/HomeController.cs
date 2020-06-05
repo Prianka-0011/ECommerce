@@ -35,7 +35,7 @@ namespace EcommerceProject.Controllers
             cart = HttpContext.Session.Get<List<CartItem>>("products");
             if (cart==null)
             {
-                return RedirectToAction("Cart");
+                return RedirectToAction("Index");
             }
             foreach (var item in cart)
             {
@@ -111,7 +111,18 @@ namespace EcommerceProject.Controllers
             }
             oldCart = HttpContext.Session.Get<List<CartItem>>("incproducts");
             oldCart1 = HttpContext.Session.Get<List<CartItem>>("products");
-            if (oldCart == null && oldCart1 != null)
+            int count = 0;
+            int count1 = 0;
+            if ( oldCart1!=null)
+            {
+               //Can not set null in session if i initialize
+                count1= oldCart1.Count();
+            }
+            if (oldCart!=null)
+            {
+                count = oldCart.Count();
+            }
+            if(count ==0 && count1>0)
             {
                 // bool itemFound = false;
                 List<CartItem> newcart = new List<CartItem>();
@@ -137,14 +148,11 @@ namespace EcommerceProject.Controllers
 
                 HttpContext.Session.Set("products", newcart);
                // HttpContext.Session.Set("incproducts",null );
-                //HttpContext.Session.Set("incproducts", null);
-
-
-
+               //HttpContext.Session.Set("incproducts", null);
                 return RedirectToAction("Cart");
 
             }
-         else if (oldCart!=null && oldCart1!=null)
+         else if (count> 0 && count1 > 0)
             {
                 List<CartItem> newcart = new List<CartItem>();
                 foreach (var item in oldCart)
@@ -166,7 +174,7 @@ namespace EcommerceProject.Controllers
                 
                 HttpContext.Session.Set("products",newcart);
                 
-                HttpContext.Session.Set("incproducts",null);
+                HttpContext.Session.Set("incproducts", new List<CartItem>());
 
 
                 return RedirectToAction("Cart");

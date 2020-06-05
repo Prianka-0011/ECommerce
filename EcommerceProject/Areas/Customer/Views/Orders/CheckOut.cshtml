@@ -1,13 +1,13 @@
 ﻿@model EcommerceProject.Models.Order
 
 @{
-    ViewData["Title"] = "CheckOut";
-    
+    decimal quantity = 0;
+    decimal price = 0;
+
+    ViewData["Title"] = "CheckOut"; 
 }
 
 <h1>CheckOut</h1>
-
-
 
 
 
@@ -34,19 +34,19 @@
                 </div>
                 <div class="row form-group">
                     <div class="col-md-2">  <label asp-for="Email"></label></div>
-                    <div class="col-md-5"><input asp-for="Email" type="checkbox" /></div>
+                    <div class="col-md-5"><input asp-for="Email" /></div>
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-2">  <label asp-for="OrderDate"></label></div>
-                    <div class="col-md-5"><input asp-for="OrderDate" type="checkbox" /></div>
+                    <div class="col-md-5"><input asp-for="OrderDate" type="date" /></div>
                     <span asp-validation-for="OrderDate" class="text-danger"></span>
                 </div>
 
-                <div class="form-group row">
+                @*<div class="form-group row">
                     <button type="submit" class="btn btn-danger">Save</button>
                     <a class=" btn btn-info" asp-action="Index"><i class="fas fa-undo"></i></a>
-                </div>
+                </div>*@
             </div>
             <div class="col-md-6">
                 <table class="table table-bordered">
@@ -58,20 +58,35 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in ViewBag.Products)
+                        @if (ViewBag.Product != null)
                         {
+                            @foreach (var item in ViewBag.Product)
+                            {
 
-                            <tr>
-                                <td><img src="~/@item.Image" alt="Alternate Text" style="border:1px solid #efefef ; border-radius:5px;width:80px;height:80px" /></td>
-                                <td>@item.Name</td>
-                                <td>@item.Price</td>
-                            </tr>
+                                <tr>
+                                    <td><img src="~/@item.Image" alt="Alternate Text" style="border:1px solid #efefef ; border-radius:5px;width:80px;height:80px" /></td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Price</td>
+                                </tr>
+                            }
+
                         }
 
 
                     </tbody>
 
                 </table>
+                <div class="text-right">
+                    @foreach (var item in ViewBag.Product)
+                    {
+                        //quantity = quantity + item.Quantity;
+                        price = price + (item.Quantity * item.Price);
+                    }
+                    <span><b>Total Amount:</b>@price</span>
+                </div>
+                <div class="form-group text-right">
+                    <button type="submit" class="btn btn-danger">Place Order</button>
+                </div>
             </div>
         </div>
     </div>

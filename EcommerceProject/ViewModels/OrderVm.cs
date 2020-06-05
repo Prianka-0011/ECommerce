@@ -9,16 +9,9 @@ namespace EcommerceProject.ViewModels
     public class OrderVm
     {
         public int Id { get; set; }
-        public string OrderNo { get; set; }
-        [Required]
         public string Name { get; set; }
-        [Required]
-        public string PhoneNo { get; set; }
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-        [Required]
-        public string Address { get; set; }
-        public DateTime OrderDate { get; set; }
+        public decimal Price { get; set; }
+        public string Image { get; set; }
+        public decimal Quantity { get; set; }
     }
 }

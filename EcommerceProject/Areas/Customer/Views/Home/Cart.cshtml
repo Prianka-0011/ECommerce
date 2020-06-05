@@ -33,7 +33,7 @@
                             <td>@item.ProductColor</td>
                             <td>@item.Type</td>
                             <td>@item.Quantity</td>
-                            <td>@item.Quantity</td>
+                          
                             <td><a asp-action="Remove" asp-route-id="@item.ProductId"><i class="far fa-trash-alt"></i></a></td>
                         </tr>
                     }
@@ -44,16 +44,9 @@
         </div>
 
         <a class="btn btn-outline-dark mr-5" asp-action="Index">Back To List</a>
-        <a class="btn btn-outline-info" asp-action="Index">Check Out</a>
+        <a class="btn btn-outline-info" asp-action="CheckOut" asp-controller="Orders">Check Out</a>
         <span class="ml-4 pull-right"><b>Quantity:</b> @quantity</span>
         <span class="pull-right"><b>Total:</b> @price</span>
     </div>
 
 }
-<div>
-    <table>
-        <tr>
-            <td></td>
-        </tr>
-    </table>
-</div>
