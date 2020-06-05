@@ -36,6 +36,52 @@ namespace EcommerceProject.Migrations
                     b.ToTable("CartItems");
                 });
 
+            modelBuilder.Entity("EcommerceProject.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .IsRequired();
+
+                    b.Property<string>("Email")
+                        .IsRequired();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<DateTime>("OrderDate");
+
+                    b.Property<string>("OrderNo");
+
+                    b.Property<string>("PhoneNo")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("EcommerceProject.Models.OrderDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("OrderId");
+
+                    b.Property<int>("ProductId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderDetails");
+                });
+
             modelBuilder.Entity("EcommerceProject.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -260,6 +306,19 @@ namespace EcommerceProject.Migrations
 
             modelBuilder.Entity("EcommerceProject.Models.CartItem", b =>
                 {
+                    b.HasOne("EcommerceProject.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("EcommerceProject.Models.OrderDetails", b =>
+                {
+                    b.HasOne("EcommerceProject.Models.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("EcommerceProject.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")

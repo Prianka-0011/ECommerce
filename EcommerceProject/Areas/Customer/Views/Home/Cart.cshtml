@@ -1,0 +1,59 @@
+﻿@model IEnumerable<EcommerceProject.ViewModels.CartVm>
+@{
+    ViewData["Title"] = "Cart";
+    decimal quantity = 0;
+    decimal price = 0;
+}
+
+
+@if (Model != null)
+{
+    <div class="border p-4 rounded">
+        <h1 class="">Cart</h1>
+        @foreach (var item in Model)
+        {
+            quantity = quantity + item.Quantity;
+            price = price + (item.Quantity * item.Price);
+        }
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-striped">
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>ProductColor</th>
+                        <th>Type</th>
+                        <th>Quantity</th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>  <img src="~/@item.Image" style="border:1px solid #efefef ;height:80px;width:80px;border-radius:5px;" /></td>
+                            <td>@item.Name</td>
+                            <td>@item.ProductColor</td>
+                            <td>@item.Type</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Quantity</td>
+                            <td><a asp-action="Remove" asp-route-id="@item.ProductId"><i class="far fa-trash-alt"></i></a></td>
+                        </tr>
+                    }
+                </table>
+            </div>
+
+
+        </div>
+
+        <a class="btn btn-outline-dark mr-5" asp-action="Index">Back To List</a>
+        <a class="btn btn-outline-info" asp-action="Index">Check Out</a>
+        <span class="ml-4 pull-right"><b>Quantity:</b> @quantity</span>
+        <span class="pull-right"><b>Total:</b> @price</span>
+    </div>
+
+}
+<div>
+    <table>
+        <tr>
+            <td></td>
+        </tr>
+    </table>
+</div>

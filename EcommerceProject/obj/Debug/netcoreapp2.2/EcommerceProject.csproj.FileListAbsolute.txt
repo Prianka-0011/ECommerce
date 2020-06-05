@@ -56,3 +56,5 @@ C:\Users\niku\source\repos\EcommerceProject\EcommerceProject\obj\Debug\netcoreap
 C:\Users\niku\source\repos\EcommerceProject\EcommerceProject\obj\Debug\netcoreapp2.2\Razor\Views\Products\Index.g.cshtml.cs
 C:\Users\niku\source\repos\EcommerceProject\EcommerceProject\obj\Debug\netcoreapp2.2\Razor\Areas\Admin\Views\Products\Delete.g.cshtml.cs
 C:\Users\niku\source\repos\EcommerceProject\EcommerceProject\obj\Debug\netcoreapp2.2\Razor\Areas\Customer\Views\Home\Details.g.cshtml.cs
+C:\Users\niku\source\repos\EcommerceProject\EcommerceProject\obj\Debug\netcoreapp2.2\Razor\Areas\Customer\Views\Home\Cart.g.cshtml.cs
+C:\Users\niku\source\repos\EcommerceProject\EcommerceProject\obj\Debug\netcoreapp2.2\Razor\Areas\Customer\Views\Orders\CheckOut.g.cshtml.cs
